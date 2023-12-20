@@ -1,0 +1,7 @@
+{
+    "files.insertFinalNewline": true,
+    "files.trimFinalNewlines": true,
+    "files.trimTrailingWhitespace": true,
+    "verilog.linting.linter": "verilator",
+    "verilog.linting.verilator.arguments": "-Wno-MODDUP float_example/float_pkg.sv"
+}

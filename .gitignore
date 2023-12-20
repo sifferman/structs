@@ -1,0 +1,11 @@
+obj_dir
+
+sv2v.v
+*sv2v.v
+
+yosys.v
+*yosys.v
+yosys.json
+*yosys.json
+
+*.svg

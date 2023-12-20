@@ -1,0 +1,29 @@
+name: Test
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * *"
+jobs:
+  Test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: 'true'
+      - name: Use node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
+      - name: Download Tools
+        run: |
+          wget -O - https://raw.githubusercontent.com/sifferman/hdl-tool-installer/main/install | bash -s -- . --oss-cad-suite --zachjs-sv2v
+          echo "$GITHUB_WORKSPACE/oss-cad-suite/bin" >> $GITHUB_PATH
+          echo "$GITHUB_WORKSPACE/zachjs-sv2v" >> $GITHUB_PATH
+          npm install -g netlistsvg
+      - name: Float Example
+        run: |
+          cd float_example
+          make
+          cd ..
