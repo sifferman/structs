@@ -1,4 +1,7 @@
 obj_dir
+sim_dir
+gls_dir
+*.fst
 
 sv2v.v
 *sv2v.v
