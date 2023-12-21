@@ -13,6 +13,7 @@ float float (
     .wdata_i
 );
 
+// Pretty-printing of float.data_q after synthesis
 float_pkg::float_t  data_q;
 assign data_q = float.data_q;
 
