@@ -16,7 +16,7 @@ gls:
 
 sv2v.yosys.netlistsvg.svg: sv2v.yosys.json
 	netlistsvg $< -o $@
-	sed -i '2i<rect width="100%" height="100%" fill="white"/>' $@
+	sed -i -E 's@(<svg[^>]*>)@\1<rect width="100%" height="100%" fill="white"/>@g' "$@"
 
 sv2v.yosys.v sv2v.yosys.json: sv2v.v
 	yosys -c yosys.tcl
