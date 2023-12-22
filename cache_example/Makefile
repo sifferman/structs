@@ -1,5 +1,5 @@
 
-RTL := float_pkg.sv float.sv
+RTL := cache_pkg.sv cache.sv
 YOSYS_DATDIR := $(shell yosys-config --datdir)
 
 all: sv2v.v sv2v.yosys.v sv2v.yosys.netlistsvg.svg sim gls
@@ -7,11 +7,11 @@ all: sv2v.v sv2v.yosys.v sv2v.yosys.netlistsvg.svg sim gls
 .SECONDARY:
 
 sim:
-	verilator --Mdir $@_dir -f verilator.f float_pkg.sv float.sv tb.sv
+	verilator --Mdir $@_dir -f verilator.f cache_pkg.sv cache.sv tb.sv
 	./$@_dir/Vtb +verilator+rand+reset+2
 
 gls: sv2v.yosys.v
-	verilator --Mdir $@_dir -I${YOSYS_DATDIR} -f verilator.f float_pkg.sv simlib.v sv2v.yosys.v tb.sv
+	verilator --Mdir $@_dir -I${YOSYS_DATDIR} -f verilator.f cache_pkg.sv simlib.v sv2v.yosys.v tb.sv
 	./$@_dir/Vtb +verilator+rand+reset+2
 
 sv2v.yosys.netlistsvg.svg: sv2v.yosys.json
@@ -24,7 +24,7 @@ sv2v.yosys.v sv2v.yosys.json: yosys.tcl sv2v.v
 sv2v.v: ${RTL}
 	sv2v ${RTL} -w $@
 
-vivado.v vivado.svg: vivado.tcl float_pkg.sv float.sv
+vivado.v vivado.svg: vivado.tcl cache_pkg.sv cache.sv
 	rm -rf vivado-build .Xil vivado.svg vivado.v
 	vivado -nolog -nojournal -mode tcl -source vivado.tcl
 

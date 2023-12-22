@@ -27,3 +27,8 @@ jobs:
           cd float_example
           make
           cd ..
+      - name: Cache Example
+        run: |
+          cd cache_example
+          make
+          cd ..

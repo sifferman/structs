@@ -11,4 +11,10 @@ yosys.v
 yosys.json
 *yosys.json
 
+vivado-build
+.Xil
+vivado.v
+*vivado.v
+
+
 *.svg
