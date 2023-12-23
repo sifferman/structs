@@ -32,3 +32,8 @@ jobs:
           cd cache_example
           make
           cd ..
+      - name: Testbech Example
+        run: |
+          cd testbench_example
+          make
+          cd ..
