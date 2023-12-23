@@ -28,7 +28,15 @@ wget -O - https://raw.githubusercontent.com/sifferman/hdl-tool-installer/main/in
 ### Run Examples
 
 ```bash
+cd cache_example
+make
+```
+```bash
 cd float_example
+make
+```
+```bash
+cd testbench_example
 make
 ```
 
@@ -58,7 +66,7 @@ make
 
 * [BSG System Verilog Coding Standards](https://docs.google.com/document/d/1xA5XUzBtz_D6aSyIBQUwFk_kSUdckrfxa2uzGjMgmCU/edit#heading=h.3ncybxldrngo)
 
-### Alternate for Structures in &leq; Verilog-2005
+### Alternates for Structures in &leq; Verilog-2005
 
 * Examples of bit-select macros
     * <https://github.com/nsat/uhd/blob/b7e0c1ea/fpga/usrp2/opencores/spi/rtl/verilog/spi_top.v#L103-L110>

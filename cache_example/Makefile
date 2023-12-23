@@ -29,4 +29,4 @@ vivado.v vivado.svg: vivado.tcl cache_pkg.sv cache.sv
 	vivado -nolog -nojournal -mode tcl -source vivado.tcl
 
 clean:
-	rm -rf *sv2v.v *yosys.v *.json *.svg sim_dir gls_dir *.fst
+	rm -rf *sv2v.v *yosys.v *.json *.svg sim_dir gls_dir *.fst .Xil vivado-build *vivado.v

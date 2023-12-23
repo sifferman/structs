@@ -1,15 +1,20 @@
+/*
+ * File: cache_example/cache_pkg.sv
+ * Author: Ethan Sifferman
+ * Description: Package to describe and parameterize the cache structure
+ */
 
 package cache_pkg;
 
-parameter int NumSets = 64;
-localparam int SetWidth = $clog2((NumSets<2) ? 2 : NumSets);
+parameter int NumSets = 16;
+parameter int TagWidth = 8;
 parameter int Associativity = 1;
+parameter int DataWidth = 16;
+
+localparam int SetWidth = $clog2((NumSets<2) ? 2 : NumSets);
 localparam int WayWidth = $clog2((Associativity<2) ? 2 : Associativity);
-parameter int TagWidth = 4;
 
-parameter int DataWidth = 4;
-
-// To be implemented as FFs
+// To optionally be implemented as FFs
 typedef struct packed {
     logic valid;
     logic [TagWidth-1:0] tag;

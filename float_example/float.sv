@@ -1,3 +1,8 @@
+/*
+ * File: float_example/float.sv
+ * Author: Ethan Sifferman
+ * Description: Module that demonstrates the float_pkg struct and functions
+ */
 
 module float (
     input   logic               clk_i,

@@ -1,3 +1,8 @@
+/*
+ * File: float_example/tb.sv
+ * Author: Ethan Sifferman
+ * Description: Basic testbench that displays float values in a wave-dump
+ */
 
 module tb;
 
@@ -13,8 +18,8 @@ float float (
     .wdata_i
 );
 
-// Pretty-printing of float.data_q after synthesis
-float_pkg::float_t  data_q;
+// For pretty dumping of float.data_q after synthesis
+float_pkg::float_t data_q;
 assign data_q = float.data_q;
 
 initial begin
@@ -26,8 +31,9 @@ initial begin
 end
 
 initial begin
-    $dumpfile( "dump.fst" );
+    $dumpfile("dump.fst");
     $dumpvars;
+    rst_i = 0;
     wen_i = 1;
     for (integer i = 0; i < 5; i++) begin
         wdata_i = $random;

@@ -32,7 +32,7 @@ jobs:
           cd cache_example
           make
           cd ..
-      - name: Testbech Example
+      - name: Testbench Example
         run: |
           cd testbench_example
           make

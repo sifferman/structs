@@ -1,3 +1,8 @@
+/*
+ * File: cache_example/cache.sv
+ * Author: Ethan Sifferman
+ * Description: Basic cache that only supports read hits
+ */
 
 module cache import cache_pkg::*; (
     input   logic                   clk_i,
@@ -7,37 +12,35 @@ module cache import cache_pkg::*; (
     output  logic                   read_hit_o,
     output  logic [DataWidth-1:0]   read_data_o,
 
-    // debug
+    // debug probes for initialization
     input   logic                               write_en_i,
     input   logic [SetWidth-1:0]                write_set_i,
-    input   block_info_t [Associativity-1:0]    write_set_info_i,
-    input   block_data_t [Associativity-1:0]    write_set_data_i
+
+    input   block_info_t [Associativity-1:0]    write_info_i,
+
+    input   logic [WayWidth-1:0]                write_data_way_i,
+    input   block_data_t                        write_data_i
 );
 
-// This basic example only supports read hits
-
-// Implemented as FFs
+// Cache Info: Optionally implemented as FFs
 logic [Associativity*InfoWidth-1:0] block_info [NumSets];
 
-// Implemented as SRAM
-logic [Associativity*DataWidth-1:0] block_data [NumSets];
+// Cache Data: Implemented as SRAM
+logic [DataWidth-1:0] block_data [NumSets*Associativity];
 
-always_ff @(posedge clk_i) begin
-    if (write_en_i) begin
-        block_info[write_set_i] <= write_set_info_i; // FFs
-        block_data[write_set_i] <= write_set_data_i; // SRAM
-    end
-end
+typedef logic [$clog2((NumSets*Associativity<2)?2:(NumSets*Associativity))-1:0] block_data_index_t;
 
-// cache line at read_set_i
-block_info_t [Associativity-1:0] read_cache_line_info;
-assign read_cache_line_info = block_info[read_set_i];
-block_data_t [Associativity-1:0] read_cache_line_data;
-assign read_cache_line_data = block_data[read_set_i];
+function automatic block_data_index_t index_block_data(logic [SetWidth-1:0] set, logic [WayWidth-1:0] way);
+    if (Associativity == 1)
+        return block_data_index_t'(set);
+    return block_data_index_t'({set, way});
+endfunction
 
-// index of way that is hit
+// Cache line at read_set_i
+wire block_info_t [Associativity-1:0] read_cache_line_info = block_info[read_set_i];
+
+// Index of way that is hit
 logic [WayWidth-1:0] hit_way;
-assign read_data_o = read_cache_line_data[hit_way];
 
 always_comb begin
     read_hit_o = 0;
@@ -48,6 +51,15 @@ always_comb begin
             read_hit_o = 1;
             hit_way = WayWidth'(i);
         end
+    end
+end
+
+assign read_data_o = block_data[index_block_data(read_set_i, hit_way)];
+
+always_ff @(posedge clk_i) begin
+    if (write_en_i) begin
+        block_info[write_set_i] <= write_info_i;
+        block_data[index_block_data(write_set_i, write_data_way_i)] <= write_data_i;
     end
 end
 

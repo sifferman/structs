@@ -1,3 +1,8 @@
+/*
+ * File: float_example/float_pkg.sv
+ * Author: Ethan Sifferman
+ * Description: Package that defines a struct and functions for IEEE-754 floating point
+ */
 
 package float_pkg;
 
