@@ -22,7 +22,7 @@ sv2v.yosys.v sv2v.yosys.json: yosys.tcl sv2v.v
 	yosys -c yosys.tcl
 
 sv2v.v: ${RTL}
-	sv2v ${RTL} -w $@
+	sv2v -D SYNTHESIS -w $@ ${RTL}
 
 vivado.v vivado.svg: vivado.tcl float_pkg.sv float.sv
 	rm -rf vivado-build .Xil vivado.svg vivado.v

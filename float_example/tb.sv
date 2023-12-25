@@ -35,8 +35,9 @@ initial begin
     $dumpvars;
     rst_i = 0;
     wen_i = 1;
-    for (integer i = 0; i < 5; i++) begin
-        wdata_i = $random;
+    wdata_i = '0;
+    for (integer i = 0; i < 35; i++) begin
+        wdata_i.biased_exponent = float_pkg::Bias + i-3;
         @(posedge clk_i);
     end
     $finish;
