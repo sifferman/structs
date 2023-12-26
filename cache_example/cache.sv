@@ -25,6 +25,9 @@ module cache import cache_pkg::*; (
 // Cache Info: Optionally implemented as FFs
 logic [Associativity*InfoWidth-1:0] block_info [NumSets];
 
+wire block_info_t [Associativity-1:0] read_cache_line_info = block_info[read_set_i];
+
+
 // Cache Data: Implemented as SRAM
 logic [DataWidth-1:0] block_data [NumSets*Associativity];
 
@@ -36,11 +39,11 @@ function automatic block_data_index_t index_block_data(logic [SetWidth-1:0] set,
     return block_data_index_t'({set, way});
 endfunction
 
-// Cache line at read_set_i
-wire block_info_t [Associativity-1:0] read_cache_line_info = block_info[read_set_i];
-
 // Index of way that is hit
 logic [WayWidth-1:0] hit_way;
+
+assign read_data_o = block_data[index_block_data(read_set_i, hit_way)];
+
 
 always_comb begin
     read_hit_o = 0;
@@ -53,8 +56,6 @@ always_comb begin
         end
     end
 end
-
-assign read_data_o = block_data[index_block_data(read_set_i, hit_way)];
 
 always_ff @(posedge clk_i) begin
     if (write_en_i) begin
